@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+        {% load staticfiles %}
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+        <title>Bellmazon IaaS</title>
+        <style>
+         
+          #title{
+            font-family: "Georgia"
+          }
+         
+         #loginHeader {
+            font-family: "Georgia";
+            text-align: center
+         }
+         .loginForm{
+            width: 400px;
+            margin: 40px auto 0;
+            padding: 40px;
+            border-style: solid;
+          
+         }
+        </style>
+    </head>
+    <body background-color="#160625">
+        <div class="container-fluid" background-color=white>
+          <img src="{% static "BellLogos/bell_pantone301_250.jpg" %}" alt="Bell Logo" class="img-responsive center-block" />
+          <h1 id="title" class="text-center">BellMazon IaaS</h1>
+          <div class="loginForm">
+            <h3 id="loginHeader" >Login To Your Account</h3>
+            <form class="form-horizontal" action="/bellmazon/auth/" method="post">
+              {% csrf_token %} 
+              <div class="form-group">
+                <label for="username" class="col-sm-4 control-label">Username</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="username" placeholder="Username" value="{{ username }}" name="username">
+                </div>
+              </div>  
+              <div class="form-group center-block">
+                <label for="password" class="col-sm-4 control-label">Password</label>
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" id="password" placeholder="Password" value="{{ password }}" name="password">
+                </div>
+              </div>
+              <div class="text-center">
+                <span>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </span>
+                <span>
+                    <button type="button" data-toggle="modal" data-target="#form-content" class="btn btn-success">Create an account</button>
+                </span>
+              </div>
+            </form>
+          </div>    
+        </div>
+        <div id="form-content" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">x</a>
+                <h3>Create New Account</h3>
+              </div>
+              <div class="modal-body">
+                <form action="/bellmazon/createAccount/"  onsubmit="return validateForm()" method="POST">
+                {% csrf_token %}  
+                  <div class="form-group">
+                    <label for="fName">First Name</label>
+                    <input type="text" class="form-control" id="fName" value="{{ fName }}" name="fName">
+                  </div>
+                  <div class="form-group">
+                    <label for="lName">Last Name</label>
+                    <input type="text" class="form-control" id="lName" value="{{ lName }}" name="lName">
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="text" class="form-control" id="emailAddr" value="{{ emailAddr }}" name="emailAddr">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+
+        function validateEmail(email){
+            var x = email.indexOf('@bell.ca')
+            if (x > -1 ){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        function validateForm(){
+            var email = $("#emailAddr").val();
+            if(!(validateEmail(email))) {
+              alert("Please enter a valid bell domain Email address");
+              return false;
+            }
+        }
+        </script>
+    </body>
+</html>
